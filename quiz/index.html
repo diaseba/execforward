@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico M0 — ExecForward</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:    #0d0d0d;
+      --white:    #ffffff;
+      --gray-50:  #f8f8f8;
+      --gray-100: #f0f0f0;
+      --gray-200: #e0e0e0;
+      --gray-400: #9a9a9a;
+      --gray-600: #555555;
+      --border:   #e0e0e0;
+      --accent:   #1a1a1a;
+      --font:     'Georgia', 'Times New Roman', serif;
+      --sans:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --radius:   6px;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: var(--sans);
+      color: var(--black);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ===== LAYOUT ===== */
+    .quiz-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .quiz-header {
+      padding: 18px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .quiz-logo {
+      font-family: var(--font);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+    .quiz-progress-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+    .quiz-progress-label {
+      font-size: 12px;
+      color: var(--gray-400);
+      white-space: nowrap;
+    }
+    .quiz-progress-bar {
+      width: 100%;
+      max-width: 180px;
+      height: 4px;
+      background: var(--gray-100);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--black);
+      border-radius: 2px;
+      transition: width 0.35s ease;
+      width: 0%;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .quiz-main {
+      flex: 1;
+      padding: 0 24px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ===== SCREENS (visibility control) ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== INTRO SCREEN ===== */
+    .intro-screen {
+      padding-top: 56px;
+      text-align: center;
+    }
+    .intro-screen .eje-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 20px;
+    }
+    .intro-screen h1 {
+      font-family: var(--font);
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .intro-screen .subtitle {
+      font-size: 15px;
+      color: var(--gray-400);
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+    .intro-screen .instruccion {
+      font-size: 15px;
+      color: var(--gray-600);
+      max-width: 460px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      text-align: left;
+    }
+
+    /* ===== QUESTION SCREEN ===== */
+    .question-screen {
+      padding-top: 40px;
+    }
+    .question-eje {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+    .question-text {
+      font-family: var(--font);
+      font-size: clamp(17px, 3vw, 21px);
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 32px;
+      letter-spacing: -0.3px;
+    }
+    .options-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-size: 15px;
+      font-family: var(--sans);
+      color: var(--black);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      line-height: 1.55;
+    }
+    .option-btn:hover {
+      border-color: var(--gray-400);
+      background: var(--gray-50);
+    }
+    .option-btn.selected {
+      border-color: var(--black);
+      background: var(--black);
+      color: var(--white);
+    }
+    .option-btn.dimmed {
+      opacity: 0.4;
+    }
+    .option-letter {
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 13px;
+      width: 20px;
+      padding-top: 1px;
+    }
+    .option-text {
+      flex: 1;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .btn-back {
+      background: none;
+      border: none;
+      font-size: 14px;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-family: var(--sans);
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-back:hover { color: var(--black); }
+    .btn-next {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+    .btn-next:disabled {
+      opacity: 0.25;
+      cursor: default;
+    }
+    .btn-next:not(:disabled):hover { opacity: 0.85; }
+    .btn-start {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      padding: 16px 36px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+      display: inline-block;
+    }
+    .btn-start:hover { opacity: 0.85; }
+
+    /* ===== RESULT SCREEN ===== */
+    .result-screen {
+      padding-top: 40px;
+    }
+    .result-score-block {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .result-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 8px;
+    }
+    .result-score {
+      font-family: var(--font);
+      font-size: clamp(52px, 12vw, 80px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -3px;
+    }
+    .result-score-denom {
+      font-size: clamp(20px, 4vw, 28px);
+      color: var(--gray-400);
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
+    .result-band-badge {
+      display: inline-block;
+      margin: 16px auto 0;
+      padding: 7px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .band-base       { background: #f0f0f0; color: #555; }
+    .band-operativo  { background: #e8eaf6; color: #303f9f; }
+    .band-competitivo{ background: #e8f5e9; color: #2e7d32; }
+    .band-diferenciado{ background: #0d0d0d; color: #ffffff; }
+
+    .result-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 0;
+    }
+
+    /* Diagnóstico */
+    .result-block {
+      margin-bottom: 28px;
+    }
+    .result-block-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+    .result-diagnostico {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.75;
+    }
+    .result-prioridades {
+      margin-top: 14px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .result-prioridades td {
+      padding: 8px 10px;
+      font-size: 14px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-600);
+    }
+    .result-prioridades td:first-child {
+      font-weight: 700;
+      width: 32px;
+      color: var(--black);
+      white-space: nowrap;
+    }
+    .result-senal {
+      margin-top: 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+    .result-senal strong {
+      color: var(--black);
+    }
+
+    /* Ejes */
+    .ejes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .eje-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eje-name {
+      font-size: 13px;
+      color: var(--gray-600);
+      flex: 1;
+      min-width: 0;
+    }
+    .eje-score-bar-wrap {
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .eje-score-bar {
+      height: 5px;
+      background: var(--gray-100);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .eje-score-fill {
+      height: 100%;
+      background: var(--black);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    .eje-score-fill.weak { background: #c62828; }
+    .eje-score-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      width: 28px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .eje-score-num.weak { color: #c62828; }
+
+    /* Eje débil alert */
+    .eje-debil-alert {
+      background: #fff8f8;
+      border: 1px solid #f5c6c6;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #7f1d1d;
+      line-height: 1.65;
+      margin-top: 12px;
+    }
+    .eje-debil-alert strong { color: #7f1d1d; }
+
+    /* Texto copiable */
+    .copy-block {
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 14px;
+      position: relative;
+    }
+    .copy-preview {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      color: var(--gray-600);
+      white-space: pre-wrap;
+      line-height: 1.6;
+      max-height: 120px;
+      overflow: hidden;
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    }
+    .btn-copy {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--white);
+      border: 1.5px solid var(--black);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--sans);
+      cursor: pointer;
+      color: var(--black);
+      transition: background 0.15s ease, color 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-copy:hover { background: var(--black); color: var(--white); }
+    .btn-copy.copied { background: var(--black); color: var(--white); }
+
+    /* CTA */
+    .cta-block {
+      background: var(--black);
+      border-radius: 8px;
+      padding: 28px 24px;
+      color: var(--white);
+      text-align: center;
+    }
+    .cta-intro {
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.85);
+    }
+    .cta-btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      border-radius: var(--radius);
+      padding: 15px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--sans);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: opacity 0.15s ease;
+      margin-bottom: 10px;
+    }
+    .cta-btn-primary:hover { opacity: 0.9; }
+    .cta-btn-secondary {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius);
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--sans);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .cta-btn-secondary:hover { border-color: rgba(255,255,255,0.7); color: var(--white); }
+    .cta-garantia {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+    }
+
+    .btn-reiniciar {
+      width: 100%;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 11px 20px;
+      font-size: 14px;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-family: var(--sans);
+      margin-top: 16px;
+    }
+    .btn-reiniciar:hover { color: var(--black); border-color: var(--gray-400); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .quiz-header { padding: 14px 16px; }
+      .quiz-main { padding: 0 16px 40px; }
+      .question-screen { padding-top: 28px; }
+      .result-screen { padding-top: 28px; }
+      .intro-screen { padding-top: 36px; }
+      .option-btn { padding: 13px 16px; font-size: 14px; }
+      .btn-next { padding: 13px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-wrap">
+  <!-- HEADER -->
+  <header class="quiz-header">
+    <div class="quiz-logo">ExecForward</div>
+    <div class="quiz-progress-wrap" id="progressWrap" style="display:none;">
+      <span class="quiz-progress-label" id="progressLabel">Pregunta 1 de 14</span>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="quiz-main">
+
+    <!-- ===== PANTALLA INICIO ===== -->
+    <div class="screen intro-screen active" id="screenIntro">
+      <span class="eje-label">Diagnóstico M0</span>
+      <h1>Diagnóstico de posicionamiento ejecutivo</h1>
+      <p class="subtitle">14 preguntas · 5 minutos · resultado inmediato</p>
+      <p class="instruccion">
+        Selecciona la opción que mejor describe tu situación actual — no la que quisieras que fuera.<br><br>
+        El diagnóstico es útil solo si es honesto.
+      </p>
+      <button class="btn-start" onclick="startQuiz()">Empezar diagnóstico</button>
+    </div>
+
+    <!-- ===== PANTALLA PREGUNTA (renderizada dinámicamente) ===== -->
+    <div class="screen question-screen" id="screenQuestion">
+      <p class="question-eje" id="qEje"></p>
+      <p class="question-text" id="qText"></p>
+      <ul class="options-list" id="optionsList"></ul>
+      <div class="nav-row">
+        <button class="btn-back" id="btnBack" onclick="goBack()">← Anterior</button>
+        <button class="btn-next" id="btnNext" disabled onclick="goNext()">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- ===== PANTALLA RESULTADO ===== -->
+    <div class="screen result-screen" id="screenResult">
+
+      <!-- Score y banda -->
+      <div class="result-score-block">
+        <p class="result-label">Tu score</p>
+        <p class="result-score">
+          <span id="scoreNum">—</span><span class="result-score-denom"> / 56</span>
+        </p>
+        <span class="result-band-badge" id="bandaBadge">—</span>
+      </div>
+
+      <hr class="result-divider">
+
+      <!-- Diagnóstico de banda -->
+      <div class="result-block">
+        <p class="result-block-title">Lo que está pasando</p>
+        <div class="result-diagnostico" id="diagBanda"></div>
+      </div>
+
+      <!-- Prioridades -->
+      <div class="result-block">
+        <p class="result-block-title">Por dónde empezar</p>
+        <table class="result-prioridades" id="tablaPrioridades"></table>
+        <div class="result-senal" id="senal"></div>
+      </div>
+
+      <hr class="result-divider">
+
+      <!-- Resultados por eje -->
+      <div class="result-block">
+        <p class="result-block-title">Mis resultados por eje</p>
+        <div class="ejes-grid" id="ejesGrid"></div>
+        <div id="ejeDebilAlert"></div>
+      </div>
+
+      <hr class="result-divider">
+
+      <!-- Resultado copiable -->
+      <div class="result-block">
+        <p class="result-block-title">Guardar mi resultado</p>
+        <div class="copy-block">
+          <div class="copy-preview" id="copyPreview"></div>
+          <button class="btn-copy" id="btnCopy" onclick="copiarResultado()">
+            <span id="copyBtnText">Copiar mi resultado para guardarlo</span>
+          </button>
+        </div>
+      </div>
+
+      <hr class="result-divider">
+
+      <!-- CTA personalizado -->
+      <div class="result-block">
+        <p class="result-block-title">Próximo paso</p>
+        <div class="cta-block" id="ctaBlock"></div>
+      </div>
+
+      <button class="btn-reiniciar" onclick="reiniciar()">Reiniciar diagnóstico</button>
+
+    </div><!-- /screenResult -->
+
+  </main>
+</div><!-- /quiz-wrap -->
+
+<script>
+/* ===================================================================
+   DATOS DEL QUIZ
+=================================================================== */
+const EJES = [
+  { id: 'E1', titulo: 'E1 — ¿Sabes por qué te contratan a ti?' },
+  { id: 'E2', titulo: 'E2 — Tu mercado objetivo' },
+  { id: 'E3', titulo: 'E3 — Tu CV ejecutivo' },
+  { id: 'E4', titulo: 'E4 — LinkedIn para ejecutivos' },
+  { id: 'E5', titulo: 'E5 — Del pitch a la negociación' },
+  { id: 'E6', titulo: 'E6 — Red de contactos' },
+  { id: 'E7', titulo: 'E7 — Lo que nadie te dice' }
+];
+
+const PREGUNTAS = [
+  /* E1 - P1 */
+  {
+    eje: 0,
+    texto: 'Última vez que alguien te preguntó a qué te dedicas o qué estás buscando, ¿qué pasó?',
+    opciones: [
+      'Hablé varios minutos explicando mi trayectoria',
+      'Di una respuesta general — algo como "estoy viendo opciones en mi industria"',
+      'Expliqué bien mi perfil pero la conversación no derivó en nada concreto',
+      'La persona me pidió más información, me ofreció un contacto, o tomó alguna acción'
+    ]
+  },
+  /* E1 - P2 */
+  {
+    eje: 0,
+    texto: 'Cuando alguien de tu red te ha querido recomendar o referir, ¿qué ha pasado?',
+    opciones: [
+      'No me han referido — no sé si saben bien qué busco',
+      'Me han referido pero a oportunidades que no eran lo que buscaba',
+      'Me han referido a cosas relevantes, aunque no siempre saben exactamente qué me diferencia',
+      'Me han referido con precisión — saben exactamente a quién conectarme y por qué'
+    ]
+  },
+  /* E2 - P1 */
+  {
+    eje: 1,
+    texto: 'En los últimos meses, ¿cómo ha sido tu relación con las oportunidades laborales que han aparecido?',
+    opciones: [
+      'He aplicado a todo lo que parecía interesante — no quiero perder ninguna oportunidad',
+      'He aplicado bastante, aunque reconozco que algunas no eran realmente lo mío',
+      'He sido selectivo, pero a veces me cuesta justificar por qué descarto algunas',
+      'Me ha pasado de ver una oferta atractiva, pensarla, y decidir no seguir — tenía claro que no era lo que buscaba aunque costara descartarla'
+    ]
+  },
+  /* E2 - P2 */
+  {
+    eje: 1,
+    texto: 'Si alguien te pidiera ahora mismo que le describieras el trabajo ideal para ti, ¿qué pasaría?',
+    opciones: [
+      'Le daría varias opciones distintas — no quiero cerrar puertas',
+      'Le describiría un perfil general, algo como "una gerencia en una empresa establecida"',
+      'Le daría una descripción bastante clara del rol, aunque me costaría precisar el tipo exacto de empresa o industria',
+      'Podría describir exactamente el rol, la industria y el tipo de empresa — aunque a veces me preocupa que ser tan específico me cierre demasiadas puertas'
+    ]
+  },
+  /* E3 - P1 */
+  {
+    eje: 2,
+    texto: 'Cuando postulas a una oportunidad, ¿qué haces con tu CV?',
+    opciones: [
+      'Mando el mismo CV a todas las oportunidades — es bueno y refleja bien mi trayectoria',
+      'A veces hago algún ajuste menor, pero básicamente es el mismo documento',
+      'Lo adapto según el cargo, aunque el proceso me toma bastante tiempo y no siempre sé si lo estoy haciendo bien',
+      'Tengo una versión base y la ajusto para cada oportunidad — keywords, foco, orden — aunque no siempre estoy seguro de si está pasando los filtros automáticos'
+    ]
+  },
+  /* E3 - P2 */
+  {
+    eje: 2,
+    texto: 'Cuando describes tu experiencia en el CV, ¿cómo lo haces normalmente?',
+    opciones: [
+      'Escribo un resumen de mis responsabilidades en cada cargo — explico bien lo que hacía',
+      'Intento destacar algunos logros, aunque no siempre sé cómo cuantificarlos',
+      'Uso logros con números cuando puedo, aunque no reviso si las palabras que uso coinciden con lo que piden las ofertas a las que postulo',
+      'Escribo logros cuantificados y ajusto el lenguaje según las palabras que aparecen en cada oferta — aunque me toma tiempo hacerlo bien'
+    ]
+  },
+  /* E4 - P1 */
+  {
+    eje: 3,
+    texto: '¿Cómo describirías tu perfil de LinkedIn hoy?',
+    opciones: [
+      'Es básicamente mi CV en formato digital — tiene toda mi trayectoria',
+      'Está completo y actualizado, aunque no he pensado mucho en cómo lo lee un reclutador',
+      'Lo he optimizado en algunos aspectos, pero no tengo claridad de si aparezco cuando alguien busca perfiles como el mío',
+      'Lo he trabajado pensando en cómo buscan los reclutadores, aunque no sé con certeza si está funcionando'
+    ]
+  },
+  /* E4 - P2 */
+  {
+    eje: 3,
+    texto: 'En los últimos seis meses, ¿qué ha pasado con tu LinkedIn en términos de oportunidades?',
+    opciones: [
+      'Nada relevante — no me ha llegado nada por ahí',
+      'Algún contacto ocasional, pero nada que haya derivado en algo concreto',
+      'He tenido contactos de reclutadores, aunque no siempre para lo que busco',
+      'Me han contactado reclutadores para roles relevantes — aunque no dependo de eso como canal principal'
+    ]
+  },
+  /* E5 - P1 */
+  {
+    eje: 4,
+    texto: 'Piensa en la última vez que tuviste una conversación importante sobre tu carrera — una entrevista, un café con un contacto, o una reunión con un potencial empleador. ¿Cómo saliste?',
+    opciones: [
+      'Sentí que no logré transmitir bien lo que valgo — la conversación no fluyó como esperaba',
+      'Creo que me fue bien, aunque salí con la sensación de que pude haber dicho cosas mejor',
+      'La conversación fue buena, pero no sé si logré dejar una impresión diferenciada o si soy uno más entre los que entrevistaron',
+      'Salí con la conversación encaminada hacia algo concreto — un siguiente paso, un contacto, o una oferta'
+    ]
+  },
+  /* E5 - P2 */
+  {
+    eje: 4,
+    texto: 'Cuando en un proceso llega el momento de hablar de compensación, ¿qué pasa?',
+    opciones: [
+      'Me incomoda — no sé bien cómo manejarlo sin quedar mal',
+      'Tengo una cifra en mente pero me cuesta defenderla si me preguntan por qué',
+      'Sé lo que quiero pedir y puedo justificarlo, aunque la negociación me genera tensión',
+      'Lo veo como parte del proceso — tengo clara mi cifra, sé cómo argumentarla y no me desestabiliza si hay contrapropuesta'
+    ]
+  },
+  /* E6 - P1 */
+  {
+    eje: 5,
+    texto: 'Cuando decides contactar a alguien de tu red para hablar de tu búsqueda, ¿qué pasa normalmente?',
+    opciones: [
+      'Me cuesta dar el primer paso — no quiero incomodar ni parecer que estoy pidiendo un favor',
+      'Lo hago, pero no siempre sé bien qué pedirle ni cómo enfocar la conversación',
+      'Tengo claro cómo aproximarme, aunque los resultados son irregulares — algunos contactos responden y otros desaparecen',
+      'Tengo un mensaje claro y sé a quién contactar primero — aunque no todos responden, las conversaciones que se dan suelen ser productivas'
+    ]
+  },
+  /* E6 - P2 */
+  {
+    eje: 5,
+    texto: 'Si miras tu red de contactos hoy, ¿cómo la describirías en relación a lo que estás buscando?',
+    opciones: [
+      'Tengo muchos contactos pero no sé bien cuáles son realmente útiles para lo que busco',
+      'Identifico algunos contactos clave, aunque no he hecho nada concreto con ellos todavía',
+      'Tengo claro quiénes pueden ayudarme, aunque me cuesta priorizar a quién activar primero',
+      'Tengo identificados los contactos que más pueden mover mi búsqueda y tengo un orden para activarlos — aunque sé que algunos no van a responder'
+    ]
+  },
+  /* E7 - P1 */
+  {
+    eje: 6,
+    texto: '¿Cómo describirías tu estado anímico en relación a tu búsqueda laboral en este momento?',
+    opciones: [
+      'Es difícil — hay días en que me cuesta mantener el ritmo y la motivación',
+      'Voy tirando, aunque noto que la incertidumbre me afecta más de lo que quisiera admitir',
+      'Estoy bien en general, aunque hay momentos puntuales en que la presión o el silencio de algunos contactos me pesa',
+      'Tengo altos y bajos como cualquiera, pero tengo formas de reponerme — no dejo que un mal día defina la semana'
+    ]
+  },
+  /* E7 - P2 */
+  {
+    eje: 6,
+    texto: '¿Cómo está manejando tu entorno cercano — pareja, familia — el hecho de que estés en búsqueda?',
+    opciones: [
+      'Es una fuente de presión adicional — siento que esperan resultados y eso me pesa',
+      'Me apoyan, aunque no siempre entienden bien cómo funciona este proceso y eso genera tensión',
+      'Están de mi lado y lo entienden bastante bien, aunque hay momentos en que la incertidumbre los afecta también',
+      'Tenemos una conversación abierta sobre el proceso — saben qué esperar y eso me quita presión en vez de agregarla'
+    ]
+  }
+];
+
+/* ===================================================================
+   TEXTOS DIAGNÓSTICO POR BANDA (del Handoff §5A)
+=================================================================== */
+const BANDAS = {
+  base: {
+    nombre: 'BASE',
+    rango: '14–26',
+    clase: 'band-base',
+    diagnostico: 'Tu búsqueda no tiene aún una base estructurada. Es probable que estés aplicando a oportunidades de forma reactiva, con un mensaje que varía según el contexto y materiales que no están trabajando por ti. No es falta de valor — es falta de sistema.',
+    prioridades: [
+      ['1', 'Construir tu propuesta de valor — todo lo demás se apoya en esto'],
+      ['2', 'Definir tu mercado objetivo con criterios reales, no aspiracionales'],
+      ['3', 'Recién después: CV, LinkedIn, red y narrativa']
+    ],
+    senal: 'Sabrás que estás progresando cuando puedas explicar en dos frases qué buscas, para qué tipo de organización, y por qué tú — y la respuesta sea la misma en cualquier contexto.',
+    diagLinea: 'Tu búsqueda está en punto de partida. Los fundamentos se construyen rápido cuando se trabajan en orden.',
+    recomendacion: 'Empieza por construir tu propuesta de valor. Sin eso, todo lo demás opera sin ancla. → execforward.com',
+    ctaIntro: 'Necesitas construir el sistema desde el inicio. El plan completo te da los 6 módulos en orden.',
+    ctaPrimario: 'Sistema completo — $89',
+    ctaUrlPrimario: '[LS_URL_BUNDLE]',
+    ctaSecundario: null,
+    ctaUrlSecundario: null
+  },
+  operativo: {
+    nombre: 'OPERATIVO',
+    rango: '27–38',
+    clase: 'band-operativo',
+    diagnostico: 'Tienes materia prima valiosa pero sin estructura consistente. Algunos ejes funcionan, otros tienen fisuras que no siempre son visibles — hasta que un proceso avanzado se cae sin explicación clara. En búsqueda ejecutiva, la inconsistencia entre ejes es más costosa que la debilidad pareja.',
+    prioridades: [
+      ['1', 'Revisar los ejes donde marcaste más bajo — ahí está el freno real'],
+      ['2', 'Verificar que tu mensaje y tu mercado objetivo estén alineados — si no coinciden, todo lo demás falla'],
+      ['3', 'Consolidar antes de escalar actividad']
+    ],
+    senal: 'Sabrás que estás progresando cuando los procesos que inicias empiecen a tener continuidad — menos silencios sin explicación, más conversaciones que derivan en pasos concretos.',
+    diagLinea: 'Tienes materia prima valiosa pero sin estructura consistente. El eslabón más débil define el resultado — no el promedio.',
+    recomendacion: 'Identificá el eje débil y trabajalo primero. Consolidar antes de escalar. → execforward.com',
+    ctaIntro: 'Tienes materia prima. El plan completo te ayuda a identificar el eslabón que frena todo y a trabajarlo en orden.',
+    ctaPrimario: 'Sistema completo — $89',
+    ctaUrlPrimario: '[LS_URL_BUNDLE]',
+    ctaSecundario: null,
+    ctaUrlSecundario: null
+  },
+  competitivo: {
+    nombre: 'COMPETITIVO',
+    rango: '39–49',
+    clase: 'band-competitivo',
+    diagnostico: 'Estás por encima del candidato promedio. Tu búsqueda tiene estructura y dirección. El problema a este nivel no es lo que falta — es lo que frena. Uno o dos ejes están limitando tu velocidad de avance. Identificarlos y trabajarlos es la diferencia entre una búsqueda de 3 meses y una de 8.',
+    prioridades: [
+      ['1', 'Analizar en qué etapa se cortan los procesos: ¿en el primer contacto, en la entrevista, en la oferta?'],
+      ['2', 'Ese punto de corte te dice qué eje trabajar — si no llegás a conversación es el CV/LinkedIn; si llegás pero no cerrás es el pitch y la negociación'],
+      ['3', 'Mantener el ritmo en los ejes que ya funcionan mientras ajustás el que frena']
+    ],
+    senal: 'Sabrás que estás progresando cuando la tasa de conversión entre etapas mejore — más conversaciones que derivan en entrevistas, más entrevistas que derivan en ofertas.',
+    diagLinea: 'Estás por encima del candidato promedio. Uno o dos ejes están limitando tu velocidad de avance.',
+    recomendacion: 'Analizá en qué etapa se cortan los procesos. Ese punto te dice qué trabajar. → execforward.com',
+    ctaIntro: 'Estás cerca. El módulo de propuesta de valor es donde empieza el trabajo fino.',
+    ctaPrimario: 'Empezar con M1 — $29',
+    ctaUrlPrimario: '[LS_URL_START]',
+    ctaSecundario: 'O el sistema completo — $89',
+    ctaUrlSecundario: '[LS_URL_BUNDLE]'
+  },
+  diferenciado: {
+    nombre: 'DIFERENCIADO',
+    rango: '50–56',
+    clase: 'band-diferenciado',
+    diagnostico: 'Tu posicionamiento es sólido. Tenés claridad de propuesta de valor, mercado definido, materiales que funcionan y una red que se puede activar. El trabajo ahora no es construir — es afinar y acelerar. Foco en distribución: que las personas correctas te encuentren o te recuerden en el momento correcto.',
+    prioridades: [
+      ['1', 'Activar sistemáticamente los contactos que pueden referirte con precisión'],
+      ['2', 'Asegurarte de que tu mensaje circule por canales que no dependen de tu actividad diaria'],
+      ['3', 'Mantener el estado anímico — a este nivel el riesgo es la sobreconfianza o la impaciencia']
+    ],
+    senal: 'Sabrás que estás progresando cuando empieces a recibir contactos que no iniciaste vos — oportunidades que llegan porque alguien te recordó en el momento correcto.',
+    diagLinea: 'Tu posicionamiento es sólido. El trabajo ahora es afinar y acelerar.',
+    recomendacion: 'Activá sistemáticamente los contactos que pueden referirte con precisión. → execforward.com',
+    ctaIntro: 'Tu posicionamiento es sólido. El trabajo ahora es distribución y velocidad.',
+    ctaPrimario: 'Empezar con M1 — $29',
+    ctaUrlPrimario: '[LS_URL_START]',
+    ctaSecundario: null,
+    ctaUrlSecundario: null
+  }
+};
+
+/* Lecturas de eje débil (score 2–3) */
+const EJE_DEBIL_LECTURAS = [
+  'Prioridad absoluta — sin propuesta de valor clara, todo lo demás es ruido',
+  'Sin mercado definido con criterios reales, el esfuerzo se dispersa',
+  'Tus materiales no están trabajando por ti — estás perdiendo oportunidades antes de que alguien te vea',
+  'Invisible para los reclutadores — dependiendo de canales de menor efectividad',
+  'Podés llegar a la conversación final y perderla — el cierre es tan importante como la apertura',
+  'Estás dependiendo de canales que tienen menos del 15% de efectividad en búsqueda ejecutiva',
+  'El estado anímico afecta directamente tu desempeño en entrevistas y conversaciones'
+];
+
+/* ===================================================================
+   ESTADO
+=================================================================== */
+let currentQ = 0;       // índice pregunta actual (0–13)
+let respuestas = [];    // valores 1–4 por pregunta (length = 14)
+
+/* ===================================================================
+   FUNCIONES PRINCIPALES
+=================================================================== */
+function startQuiz() {
+  currentQ = 0;
+  respuestas = new Array(14).fill(null);
+  mostrarPregunta(0);
+  document.getElementById('progressWrap').style.display = 'flex';
+  showScreen('screenQuestion');
+}
+
+function mostrarPregunta(idx) {
+  const p = PREGUNTAS[idx];
+  const ejeData = EJES[p.eje];
+
+  document.getElementById('qEje').textContent = ejeData.titulo;
+  document.getElementById('qText').textContent = p.texto;
+
+  const lista = document.getElementById('optionsList');
+  lista.innerHTML = '';
+  const letras = ['A', 'B', 'C', 'D'];
+
+  p.opciones.forEach(function(opt, i) {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.dataset.valor = i + 1;
+    btn.innerHTML =
+      '<span class="option-letter">' + letras[i] + '</span>' +
+      '<span class="option-text">' + opt + '</span>';
+
+    // Si ya hay respuesta guardada, marcarla
+    if (respuestas[idx] === i + 1) {
+      btn.classList.add('selected');
+    }
+
+    btn.addEventListener('click', function() {
+      seleccionarOpcion(idx, i + 1, lista);
+    });
+    li.appendChild(btn);
+    lista.appendChild(li);
+  });
+
+  // Aplicar dimmed si ya hay selección
+  if (respuestas[idx] !== null) {
+    actualizarDimmed(lista, respuestas[idx]);
+  }
+
+  // Botón siguiente
+  const btnNext = document.getElementById('btnNext');
+  btnNext.disabled = respuestas[idx] === null;
+  btnNext.textContent = idx === 13 ? 'Ver resultado →' : 'Siguiente →';
+
+  // Botón anterior
+  document.getElementById('btnBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
+
+  // Progreso
+  actualizarProgreso(idx + 1);
+}
+
+function seleccionarOpcion(qIdx, valor, lista) {
+  respuestas[qIdx] = valor;
+
+  const btns = lista.querySelectorAll('.option-btn');
+  btns.forEach(function(b) { b.classList.remove('selected', 'dimmed'); });
+  actualizarDimmed(lista, valor);
+
+  document.getElementById('btnNext').disabled = false;
+}
+
+function actualizarDimmed(lista, valorSeleccionado) {
+  const btns = lista.querySelectorAll('.option-btn');
+  btns.forEach(function(b) {
+    const v = parseInt(b.dataset.valor);
+    if (v === valorSeleccionado) {
+      b.classList.add('selected');
+      b.classList.remove('dimmed');
+    } else {
+      b.classList.add('dimmed');
+      b.classList.remove('selected');
+    }
+  });
+}
+
+function goNext() {
+  if (respuestas[currentQ] === null) return;
+  if (currentQ === 13) {
+    mostrarResultado();
+    return;
+  }
+  currentQ++;
+  mostrarPregunta(currentQ);
+}
+
+function goBack() {
+  if (currentQ === 0) return;
+  currentQ--;
+  mostrarPregunta(currentQ);
+}
+
+function actualizarProgreso(pregActual) {
+  const pct = Math.round((pregActual / 14) * 100);
+  document.getElementById('progressLabel').textContent =
+    'Pregunta ' + pregActual + ' de 14';
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ===================================================================
+   SCORING Y RESULTADO
+=================================================================== */
+function calcularScores() {
+  const scoreGlobal = respuestas.reduce(function(sum, r) { return sum + r; }, 0);
+  const scoresPorEje = EJES.map(function(_, ejeIdx) {
+    const qs = PREGUNTAS
+      .map(function(p, i) { return p.eje === ejeIdx ? respuestas[i] : null; })
+      .filter(function(v) { return v !== null; });
+    return qs.reduce(function(s, v) { return s + v; }, 0);
+  });
+  return { scoreGlobal, scoresPorEje };
+}
+
+function getBanda(score) {
+  if (score <= 26) return 'base';
+  if (score <= 38) return 'operativo';
+  if (score <= 49) return 'competitivo';
+  return 'diferenciado';
+}
+
+function mostrarResultado() {
+  const { scoreGlobal, scoresPorEje } = calcularScores();
+  const bandaKey = getBanda(scoreGlobal);
+  const banda = BANDAS[bandaKey];
+
+  // Score y badge
+  document.getElementById('scoreNum').textContent = scoreGlobal;
+  const badge = document.getElementById('bandaBadge');
+  badge.textContent = banda.nombre;
+  badge.className = 'result-band-badge ' + banda.clase;
+
+  // Diagnóstico
+  document.getElementById('diagBanda').textContent = banda.diagnostico;
+
+  // Prioridades
+  const tabla = document.getElementById('tablaPrioridades');
+  tabla.innerHTML = banda.prioridades.map(function(p) {
+    return '<tr><td>' + p[0] + '</td><td>' + p[1] + '</td></tr>';
+  }).join('');
+
+  // Señal de avance
+  document.getElementById('senal').innerHTML =
+    '<strong>Señal de avance:</strong> ' + banda.senal;
+
+  // Ejes
+  const ejesGrid = document.getElementById('ejesGrid');
+  ejesGrid.innerHTML = '';
+  let ejeDebilIdx = -1;
+  let ejeDebilScore = 99;
+
+  scoresPorEje.forEach(function(s, i) {
+    const isWeak = s <= 3;
+    if (isWeak && s < ejeDebilScore) {
+      ejeDebilIdx = i;
+      ejeDebilScore = s;
+    }
+    const pct = Math.round((s / 8) * 100);
+    const row = document.createElement('div');
+    row.className = 'eje-row';
+    row.innerHTML =
+      '<span class="eje-name">' + EJES[i].titulo + '</span>' +
+      '<div class="eje-score-bar-wrap">' +
+        '<div class="eje-score-bar">' +
+          '<div class="eje-score-fill' + (isWeak ? ' weak' : '') + '" style="width:' + pct + '%"></div>' +
+        '</div>' +
+      '</div>' +
+      '<span class="eje-score-num' + (isWeak ? ' weak' : '') + '">' + s + '/8</span>';
+    ejesGrid.appendChild(row);
+  });
+
+  // Eje débil alert
+  const alert = document.getElementById('ejeDebilAlert');
+  if (ejeDebilIdx >= 0) {
+    alert.innerHTML =
+      '<div class="eje-debil-alert">' +
+      '⚠ <strong>Tu eje más bajo: ' + EJES[ejeDebilIdx].titulo + ' — ' + ejeDebilScore + '/8</strong><br>' +
+      EJE_DEBIL_LECTURAS[ejeDebilIdx] +
+      '</div>';
+  } else {
+    alert.innerHTML = '';
+  }
+
+  // Texto copiable
+  const textoCopiable = generarTextoCopiable(scoreGlobal, scoresPorEje, banda, ejeDebilIdx);
+  document.getElementById('copyPreview').textContent = textoCopiable;
+  document.getElementById('copyPreview')._fullText = textoCopiable;
+
+  // CTA
+  const ctaBlock = document.getElementById('ctaBlock');
+  let ctaHTML = '<p class="cta-intro">' + banda.ctaIntro + '</p>';
+  ctaHTML += '<a href="' + banda.ctaUrlPrimario + '" class="cta-btn-primary">' + banda.ctaPrimario + '</a>';
+  if (banda.ctaSecundario) {
+    ctaHTML += '<a href="' + banda.ctaUrlSecundario + '" class="cta-btn-secondary">' + banda.ctaSecundario + '</a>';
+  }
+  ctaHTML += '<p class="cta-garantia">Acceso inmediato · Sin suscripción · Garantía 30 días</p>';
+  ctaBlock.innerHTML = ctaHTML;
+
+  document.getElementById('progressWrap').style.display = 'none';
+  showScreen('screenResult');
+}
+
+function generarTextoCopiable(scoreGlobal, scoresPorEje, banda, ejeDebilIdx) {
+  const hoy = new Date();
+  const fecha = hoy.toLocaleDateString('es', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+  let texto = 'MI DIAGNÓSTICO EXECFORWARD\n';
+  texto += '──────────────────────────\n';
+  texto += 'Fecha: ' + fecha + '\n';
+  texto += 'Score total: ' + scoreGlobal + ' / 56\n';
+  texto += 'Banda: ' + banda.nombre + '\n';
+  texto += '\n';
+  texto += banda.diagLinea + '\n';
+  texto += '\n';
+  texto += 'MIS RESULTADOS POR EJE:\n';
+
+  const ejeNombresCortos = [
+    '¿Sabes por qué te contratan a ti?',
+    'Tu mercado objetivo',
+    'Tu CV ejecutivo',
+    'LinkedIn para ejecutivos',
+    'Del pitch a la negociación',
+    'Red de contactos',
+    'Lo que nadie te dice'
+  ];
+
+  ejeNombresCortos.forEach(function(nombre, i) {
+    const pad = '                             '.substring(nombre.length);
+    texto += 'E' + (i + 1) + ' — ' + nombre + ':' + pad + scoresPorEje[i] + '/8\n';
+  });
+
+  if (ejeDebilIdx >= 0) {
+    texto += '\n';
+    texto += '⚠ Eje más bajo: ' + EJES[ejeDebilIdx].titulo + ' — ' + scoresPorEje[ejeDebilIdx] + '/8\n';
+    texto += EJE_DEBIL_LECTURAS[ejeDebilIdx] + '\n';
+  }
+
+  texto += '\n';
+  texto += 'PRÓXIMO PASO:\n';
+  texto += banda.recomendacion + '\n';
+  texto += '\n';
+  texto += '──────────────────────────\n';
+  texto += 'execforward.com';
+
+  return texto;
+}
+
+function copiarResultado() {
+  const texto = document.getElementById('copyPreview')._fullText;
+  if (!texto) return;
+
+  navigator.clipboard.writeText(texto).then(function() {
+    const btn = document.getElementById('btnCopy');
+    const label = document.getElementById('copyBtnText');
+    btn.classList.add('copied');
+    label.textContent = '✓ Copiado al portapapeles';
+    setTimeout(function() {
+      btn.classList.remove('copied');
+      label.textContent = 'Copiar mi resultado para guardarlo';
+    }, 2500);
+  }).catch(function() {
+    // Fallback para contextos sin clipboard API (iframes sin permisos)
+    const ta = document.createElement('textarea');
+    ta.value = texto;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const label = document.getElementById('copyBtnText');
+    label.textContent = '✓ Copiado';
+    setTimeout(function() {
+      label.textContent = 'Copiar mi resultado para guardarlo';
+    }, 2500);
+  });
+}
+
+function reiniciar() {
+  currentQ = 0;
+  respuestas = new Array(14).fill(null);
+  document.getElementById('progressWrap').style.display = 'none';
+  showScreen('screenIntro');
+}
+
+/* ===================================================================
+   UTILIDAD
+=================================================================== */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ===================================================================
+   COMUNICACIÓN CON LANDING (postMessage para ajuste de altura iframe)
+=================================================================== */
+function notifyHeight() {
+  const h = document.body.scrollHeight;
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: 'efQuizHeight', height: h }, '*');
+  }
+}
+
+const observer = new MutationObserver(notifyHeight);
+observer.observe(document.body, { childList: true, subtree: true });
+window.addEventListener('resize', notifyHeight);
+</script>
+</body>
+</html>
