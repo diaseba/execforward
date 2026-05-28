@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 190" width="314" height="190" role="img">
+  <title>ExecForward — Logo apilado (dark)</title>
+  <desc>Isotipo arriba, wordmark debajo centrado. isoH=3.53×capH, vGap=0.456×capH, weight 800.</desc>
+  <g transform="translate(82.11, 16.00)">
+  <rect x="0" y="0" width="71.891" height="15.976" rx="2.995" fill="#60A5FA"></rect>
+  <rect x="0" y="21.967" width="71.891" height="15.976" rx="2.995" fill="#60A5FA"></rect>
+  <rect x="0" y="43.933" width="71.891" height="15.976" rx="2.995" fill="#60A5FA"></rect>
+  <rect x="0" y="65.9" width="71.891" height="15.976" rx="2.995" fill="#60A5FA"></rect>
+  <rect x="0" y="87.867" width="71.891" height="15.976" rx="2.995" fill="#60A5FA"></rect>
+  <polygon points="72.889,0 92.859,55.915 72.889,111.83 83.873,111.83 103.843,55.915 83.873,0" fill="#2DD4BF"></polygon>
+  <polygon points="95.855,0 115.824,55.915 95.855,111.83 106.838,111.83 126.808,55.915 106.838,0" fill="#2DD4BF" opacity="0.7"></polygon>
+  <polygon points="118.82,0 138.79,55.915 118.82,111.83 129.803,111.83 149.773,55.915 129.803,0" fill="#2DD4BF" opacity="0.4"></polygon>
+  </g>
+  <text x="157.00" y="173.96" font-family="&#39;Karla&#39;,&#39;Helvetica Neue&#39;,Arial,sans-serif" font-weight="800" font-size="44" fill="#FFFFFF" letter-spacing="-0.5" text-anchor="middle" textLength="281.19" lengthAdjust="spacingAndGlyphs">ExecForward</text>
+</svg>

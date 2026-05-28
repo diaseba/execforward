@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 431 87" width="431" height="87" role="img">
+  <title>ExecForward — Logo horizontal (monocromo)</title>
+  <desc>Wordmark + isotipo. gap=0.354×capH, isoH=1.98×capH.</desc>
+  <text x="0" y="61.79" font-family="&#39;Karla&#39;,&#39;Helvetica Neue&#39;,Arial,sans-serif" font-weight="700" font-size="52" fill="#000000" letter-spacing="-0.5" textLength="313.51" lengthAdjust="spacingAndGlyphs">ExecForward</text>
+  <g transform="translate(326.76, 6.00)">
+  <rect x="0" y="0" width="47.656" height="10.59" rx="1.986" fill="#000000"></rect>
+  <rect x="0" y="14.561" width="47.656" height="10.59" rx="1.986" fill="#000000"></rect>
+  <rect x="0" y="29.123" width="47.656" height="10.59" rx="1.986" fill="#000000"></rect>
+  <rect x="0" y="43.684" width="47.656" height="10.59" rx="1.986" fill="#000000"></rect>
+  <rect x="0" y="58.246" width="47.656" height="10.59" rx="1.986" fill="#000000"></rect>
+  <polygon points="48.318,0 61.555,37.066 48.318,74.131 55.598,74.131 68.836,37.066 55.598,0" fill="#000000"></polygon>
+  <polygon points="63.541,0 76.779,37.066 63.541,74.131 70.822,74.131 84.059,37.066 70.822,0" fill="#000000" opacity="0.6"></polygon>
+  <polygon points="78.764,0 92.002,37.066 78.764,74.131 86.045,74.131 99.283,37.066 86.045,0" fill="#000000" opacity="0.3"></polygon>
+  </g>
+</svg>

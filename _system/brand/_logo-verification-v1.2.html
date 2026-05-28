@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Logo verification · v1.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8FAFC; --ink:#0F172A; --muted:#64748B; --line:#E2E8F0;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:'Karla','Helvetica Neue',Arial,sans-serif;
+    background:var(--bg); color:var(--ink);
+    margin:0; padding:40px 48px;
+  }
+  h1{font-weight:800; letter-spacing:-0.5px; margin:0 0 6px; font-size:28px}
+  .meta{color:var(--muted); font-size:13px; margin:0 0 32px; max-width:720px; line-height:1.5}
+  h2{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.4px; color:var(--muted); margin:36px 0 14px}
+
+  .grid-h{display:grid; grid-template-columns:120px 1fr; gap:32px; align-items:center;
+          padding:24px 28px; background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:14px}
+  .grid-h.dark{background:#0F172A; color:#fff; border-color:#1E293B}
+  .grid-h.tan{background:#F4EFE7}
+  .label{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.3px}
+  .dark .label{color:#94A3B8}
+  .sizes{display:flex; align-items:center; gap:36px}
+  .col{display:flex; flex-direction:column; align-items:flex-start; gap:8px}
+  .col small{font-size:10px; color:#94A3B8; letter-spacing:.5px}
+  .dark .col small{color:#64748B}
+  .col img{display:block; max-width:100%}
+  .sizes{flex-wrap:wrap}
+
+  .stacked-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:14px}
+  .stacked-cell{padding:24px; background:#fff; border:1px solid var(--line); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:12px; overflow:hidden}
+  .stacked-cell img{max-width:100%; height:auto}
+  .stacked-cell.dark{background:#0F172A; color:#fff; border-color:#1E293B}
+  .stacked-cell.mono{background:#fff}
+  .stacked-cell .lbl{font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.5px; text-transform:uppercase}
+  .dark .lbl{color:#94A3B8}
+
+  /* Application mockups */
+  .apps{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .app{
+    aspect-ratio:16/9; background:#000; border-radius:10px; position:relative; overflow:hidden;
+    display:flex; align-items:flex-end; padding:18px;
+  }
+  .app.video{background:linear-gradient(135deg,#1E293B,#334155)}
+  .app .watermark{position:absolute; top:14px; left:14px; height:22px}
+  .app .watermark img{height:100%; display:block}
+  .app .caption{color:#fff; font-size:11px; opacity:.7}
+  .app.card{background:#fff; aspect-ratio:1; padding:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; border:1px solid var(--line)}
+  .app.card .logo{height:80px}
+  .app.card .url{font-size:12px; color:var(--muted); font-weight:700}
+</style>
+</head>
+<body>
+  <h1>ExecForward · Logo system v1.2</h1>
+  <p class="meta">
+    Proporciones derivadas de las referencias del usuario:
+    <strong>gap horizontal = 0.354 × cap-height</strong>,
+    <strong>isoH horizontal = 1.98 × cap-height</strong>,
+    <strong>isoH apilado = 3.53 × cap-height</strong>,
+    weight 700 (horizontal) / 800 (apilado).
+    Geometría del isotipo única (canónica de Variante A · aspect 1.339).
+  </p>
+
+  <h2>Horizontales — escalas (watermark · header · display)</h2>
+
+  <div class="grid-h">
+    <div class="label">B · Horizontal<br>light</div>
+    <div class="sizes">
+      <div class="col"><small>22 PX</small><img src="EF_logo_B_horizontal.svg" height="22"></div>
+      <div class="col"><small>36 PX</small><img src="EF_logo_B_horizontal.svg" height="36"></div>
+      <div class="col"><small>64 PX</small><img src="EF_logo_B_horizontal.svg" height="64"></div>
+      <div class="col"><small>120 PX</small><img src="EF_logo_B_horizontal.svg" height="120"></div>
+    </div>
+  </div>
+
+  <div class="grid-h dark">
+    <div class="label">D · Horizontal<br>dark</div>
+    <div class="sizes">
+      <div class="col"><small>22 PX</small><img src="EF_logo_D_dark.svg" height="22"></div>
+      <div class="col"><small>36 PX</small><img src="EF_logo_D_dark.svg" height="36"></div>
+      <div class="col"><small>64 PX</small><img src="EF_logo_D_dark.svg" height="64"></div>
+      <div class="col"><small>120 PX</small><img src="EF_logo_D_dark.svg" height="120"></div>
+    </div>
+  </div>
+
+  <div class="grid-h">
+    <div class="label">E · Horizontal<br>monocromo</div>
+    <div class="sizes">
+      <div class="col"><small>22 PX</small><img src="EF_logo_E_monocromo.svg" height="22"></div>
+      <div class="col"><small>36 PX</small><img src="EF_logo_E_monocromo.svg" height="36"></div>
+      <div class="col"><small>64 PX</small><img src="EF_logo_E_monocromo.svg" height="64"></div>
+      <div class="col"><small>120 PX</small><img src="EF_logo_E_monocromo.svg" height="120"></div>
+    </div>
+  </div>
+
+  <h2>Apilados — light · dark · monocromo</h2>
+
+  <div class="stacked-grid">
+    <div class="stacked-cell">
+      <div class="lbl">C · Light</div>
+      <img src="EF_logo_C_apilado.svg" height="170">
+    </div>
+    <div class="stacked-cell dark">
+      <div class="lbl">C · Dark</div>
+      <img src="EF_logo_C_apilado_dark.svg" height="170">
+    </div>
+    <div class="stacked-cell mono">
+      <div class="lbl">C · Mono</div>
+      <img src="EF_logo_C_apilado_mono.svg" height="170">
+    </div>
+  </div>
+
+  <h2>Isotipo solo — light · dark · monocromo</h2>
+
+  <div class="stacked-grid">
+    <div class="stacked-cell">
+      <div class="lbl">A · Light</div>
+      <img src="EF_logo_A_isotipo.svg" height="140">
+    </div>
+    <div class="stacked-cell dark">
+      <div class="lbl">A · Dark</div>
+      <img src="EF_logo_A_isotipo_dark.svg" height="140">
+    </div>
+    <div class="stacked-cell mono">
+      <div class="lbl">A · Mono</div>
+      <img src="EF_logo_A_isotipo_mono.svg" height="140">
+    </div>
+  </div>
+
+  <h2>Aplicaciones simuladas</h2>
+
+  <div class="apps">
+    <div class="app video">
+      <div class="watermark"><img src="EF_logo_D_dark.svg"></div>
+      <div class="caption">Video · watermark 22px</div>
+    </div>
+    <div class="app card">
+      <img class="logo" src="EF_logo_C_apilado.svg">
+      <div class="url">execforward.com</div>
+    </div>
+    <div class="app video" style="background:#fff;border:1px solid var(--line)">
+      <div class="watermark"><img src="EF_logo_B_horizontal.svg"></div>
+      <div class="caption" style="color:var(--muted)">Doc / landing · 22px</div>
+    </div>
+  </div>
+
+</body>
+</html>
