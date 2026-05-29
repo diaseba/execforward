@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" width="280" height="200" role="img">
+  <title>ExecForward — Logo apilado</title>
+  <desc>Isotipo centrado arriba (proporciones Variante A), wordmark centrado abajo.</desc>
+  <g transform="translate(102, 10)">
+    <rect x="0" y="0" width="36" height="9" rx="2" fill="#2563EB"/>
+    <rect x="0" y="12" width="36" height="9" rx="2" fill="#2563EB"/>
+    <rect x="0" y="24" width="36" height="9" rx="2" fill="#2563EB"/>
+    <rect x="0" y="36" width="36" height="9" rx="2" fill="#2563EB"/>
+    <rect x="0" y="48" width="36" height="9" rx="2" fill="#2563EB"/>
+    <polygon points="37,0 47,28.5 37,57 43,57 53,28.5 43,0" fill="#14B8A6"/>
+    <polygon points="49,0 59,28.5 49,57 55,57 65,28.5 55,0" fill="#14B8A6" opacity="0.70"/>
+    <polygon points="61,0 71,28.5 61,57 67,57 77,28.5 67,0" fill="#14B8A6" opacity="0.40"/>
+  </g>
+  <text x="140" y="148" font-family="'Karla','Helvetica Neue',Arial,sans-serif"
+        font-weight="700" font-size="36" fill="#1F2937" text-anchor="middle"
+        letter-spacing="-0.5">ExecForward</text>
+</svg>

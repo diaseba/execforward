@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 80" width="440" height="80" role="img">
+  <title>ExecForward — Logo monocromo</title>
+  <desc>Logo en negro sólido #000000, sin color, para impresión a un solo tono. Proporciones Variante A.</desc>
+  <text x="0" y="58" font-family="'Karla','Helvetica Neue',Arial,sans-serif"
+        font-weight="700" font-size="52" fill="#000000" letter-spacing="-0.5">ExecForward</text>
+  <g transform="translate(350, 0)">
+    <rect x="0" y="12" width="36" height="9" rx="2" fill="#000000"/>
+    <rect x="0" y="24" width="36" height="9" rx="2" fill="#000000"/>
+    <rect x="0" y="36" width="36" height="9" rx="2" fill="#000000"/>
+    <rect x="0" y="48" width="36" height="9" rx="2" fill="#000000"/>
+    <rect x="0" y="60" width="36" height="9" rx="2" fill="#000000"/>
+    <polygon points="37,12 47,40.5 37,69 43,69 53,40.5 43,12" fill="#000000"/>
+    <polygon points="49,12 59,40.5 49,69 55,69 65,40.5 55,12" fill="#000000" opacity="0.60"/>
+    <polygon points="61,12 71,40.5 61,69 67,69 77,40.5 67,12" fill="#000000" opacity="0.30"/>
+  </g>
+</svg>

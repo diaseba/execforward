@@ -1,0 +1,86 @@
+{
+  "_doc": "Timeline · fase 2 del workflow. Reemplaza los TODOs. El engine (_system/engine/overlay-engine.jsx) lo consume tal cual.",
+  "_schema": {
+    "meta": {
+      "title": "string · nombre del video",
+      "duration": "number · segundos totales",
+      "aspect": "'16:9' | '9:16' | '1:1'",
+      "video": "string opcional · path relativo a un .mp4 de fondo (vacío = modo diseño puro)"
+    },
+    "scenes": "array de escenas con kind: 'phrase'|'stat'|'brand-reveal'|'modules'|'cta-card'",
+    "_scene_props_doc": {
+      "phrase":       "{ tIn, tOut, kind:'phrase', eyebrow?, lines:[str], accent?:str (palabra a tintar), dimSecond?:bool, big?:bool }",
+      "stat":         "{ tIn, tOut, kind:'stat', big:'70%', label:'línea1\\nlínea2 (la 2 se tinta)', labelAccentLine?:0|1|2 }",
+      "brand-reveal": "{ tIn, tOut, kind:'brand-reveal', tagline? }",
+      "modules":      "{ tIn, tOut, kind:'modules', eyebrow?, items:[str,...], numPrefix?:'M' }",
+      "cta-card":     "{ tIn, tOut, kind:'cta-card', headline?, url?, proof?:[str,str,str] }"
+    }
+  },
+
+  "meta": {
+    "title": "TODO · título del video",
+    "duration": 60,
+    "aspect": "16:9",
+    "video": ""
+  },
+
+  "scenes": [
+    {
+      "id": "hook",
+      "tIn": 2.0, "tOut": 7.5,
+      "kind": "phrase",
+      "eyebrow": "— TODO eyebrow corto",
+      "lines": ["TODO línea 1.", "TODO línea 2."],
+      "accent": "TODO línea 2."
+    },
+    {
+      "id": "reframe",
+      "tIn": 8.5, "tOut": 14.0,
+      "kind": "phrase",
+      "lines": ["TODO línea 1.", "<em>TODO</em> palabra-pivote."]
+    },
+    {
+      "id": "stat",
+      "tIn": 15.5, "tOut": 22.0,
+      "kind": "stat",
+      "big": "TODO%",
+      "label": "TODO contexto\nTODO punchline (se tinta en teal)"
+    },
+    {
+      "id": "pivot",
+      "tIn": 23.0, "tOut": 30.0,
+      "kind": "phrase",
+      "lines": ["TODO · la promesa central."],
+      "big": true
+    },
+    {
+      "id": "brand",
+      "tIn": 32.0, "tOut": 39.0,
+      "kind": "brand-reveal",
+      "tagline": "El sistema de posicionamiento ejecutivo."
+    },
+    {
+      "id": "modules",
+      "tIn": 39.5, "tOut": 46.0,
+      "kind": "modules",
+      "eyebrow": "Seis módulos. Un sistema.",
+      "items": [
+        "Propuesta de valor",
+        "Mercado objetivo",
+        "CV y LinkedIn",
+        "Red de contactos",
+        "Pitch y negociación",
+        "Plan de ejecución"
+      ],
+      "numPrefix": "M"
+    },
+    {
+      "id": "cta",
+      "tIn": 47.0, "tOut": 60.0,
+      "kind": "cta-card",
+      "headline": "Empieza con el diagnóstico gratuito.",
+      "url": "execforward.com",
+      "proof": ["Gratis", "5 minutos", "Sin email"]
+    }
+  ]
+}

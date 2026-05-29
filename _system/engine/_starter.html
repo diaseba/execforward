@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+  ExecForward · Starter de prototipo de video
+  Copia este archivo a videos/NNN-slug/prototype.html y completa los TODOs.
+  Tu fuente de copy/timing es ./timeline.json (al lado de este HTML).
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TODO · ExecForward Video</title>
+
+<!-- Brand tokens + overlay base (no tocar) -->
+<link rel="stylesheet" href="../../_system/brand/tokens.css">
+<link rel="stylesheet" href="../../_system/engine/overlay-base.css">
+
+<style>
+  /* Chrome del preview (no aparece en el render final) */
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--ef-bg);color:#fff;font-family:var(--ef-font-body)}
+  body{display:flex; flex-direction:column; min-height:100vh; overflow:hidden}
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+    border-bottom:1px solid var(--ef-border);
+    background:var(--ef-bg-panel);
+    flex-shrink:0;
+  }
+  .top-title{ font-family:var(--ef-font-display); font-weight:700; font-size:14px; display:flex; align-items:center; gap:10px }
+  .top-title .badge{
+    background:rgba(20,184,166,0.16); color:var(--ef-teal-light);
+    font-family:var(--ef-font-body); font-weight:600; font-size:11px;
+    padding:3px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:0.08em;
+  }
+  .top-meta{ font-size:12px; color:rgba(255,255,255,0.5); font-weight:500 }
+
+  /* Controls bar */
+  .ef-controls{
+    display:flex; align-items:center; gap:14px;
+    width:100%;
+    max-width:min(100%, calc((100vh - 200px) * 16 / 9));
+    padding: 8px 6px; flex-shrink:0; flex-wrap:wrap;
+  }
+  .ef-ctrl-btn{
+    width:36px; height:36px; border-radius:50%;
+    background:#fff; color:#0B0F19; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ef-time{ font-family:var(--ef-font-mono); font-size:12px; color:rgba(255,255,255,0.7); min-width:80px }
+  .ef-time-sep{ color:rgba(255,255,255,0.3); margin:0 4px }
+  .ef-scrubber{
+    flex:1; min-width:160px;
+    -webkit-appearance:none; appearance:none;
+    height:4px; background:rgba(255,255,255,0.1); border-radius:2px; outline:none; cursor:pointer;
+  }
+  .ef-scrubber::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--ef-teal-light); cursor:pointer;
+    box-shadow: 0 0 0 4px rgba(45,212,191,0.15);
+  }
+  .ef-chips{ display:flex; gap:4px; flex-wrap:wrap }
+  .ef-chip{
+    font-family:var(--ef-font-body); font-weight:600; font-size:10.5px;
+    padding:5px 9px; border-radius:4px;
+    background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.6);
+    border:1px solid rgba(255,255,255,0.08); cursor:pointer;
+    text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .ef-chip--on{ background:var(--ef-teal); color:#fff; border-color:var(--ef-teal) }
+
+  /* Floating tweaks button */
+  .fab-tweaks{
+    position:fixed; bottom:18px; right:18px; z-index:60;
+    background:var(--ef-teal); color:#fff; border:none;
+    border-radius:999px; padding:11px 18px;
+    font-family:var(--ef-font-display); font-weight:700; font-size:13px;
+    cursor:pointer;
+    box-shadow: 0 8px 24px rgba(20,184,166,0.35), 0 2px 6px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-title">
+    <span>TODO · Título del video</span>
+    <span class="badge">Prototipo</span>
+  </div>
+  <div class="top-meta">TODO · duración · aspecto · estado</div>
+</div>
+
+<div id="root"></div>
+
+<button class="fab-tweaks" id="fab-tweaks">Tweaks</button>
+<script>
+  document.getElementById('fab-tweaks').addEventListener('click', () => {
+    window.postMessage({ type: '__activate_edit_mode' }, '*');
+  });
+</script>
+
+<!-- React + Babel (versiones pinned, no cambiar) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Sistema (orden: tweaks-panel primero, luego engine) -->
+<script type="text/babel" src="../../_system/engine/tweaks-panel.jsx"></script>
+<script type="text/babel" src="../../_system/engine/overlay-engine.jsx"></script>
+
+<!-- App: carga timeline.json y monta el engine -->
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  const [timeline, setTimeline] = useState(null);
+
+  useEffect(() => {
+    fetch('./timeline.json').then(r => r.json()).then(setTimeline);
+  }, []);
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "variant": "kinetic",
+    "logoVariant": "horizontal",
+    "showWatermark": true,
+    "dimBg": true,
+    "showScrubber": true,
+    "muted": true
+  }/*EDITMODE-END*/;
+  const [t, setT] = useTweaks(TWEAK_DEFAULTS);
+
+  if (!timeline) return <div style={{padding:40,opacity:.6}}>Cargando timeline…</div>;
+
+  return (
+    <>
+      <EFOverlayEngine
+        timeline={timeline}
+        variant={t.variant}
+        logoVariant={t.logoVariant}
+        showWatermark={t.showWatermark}
+        dimBg={t.dimBg}
+        showScrubber={t.showScrubber}
+        muted={t.muted}
+      />
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Variación de overlay" />
+        <TweakSelect label="Estilo" value={t.variant} onChange={v => setT('variant', v)}
+          options={[
+            { value: 'kinetic',   label: 'A · Kinetic Center' },
+            { value: 'editorial', label: 'B · Editorial Left' },
+            { value: 'caption',   label: 'C · Caption Bottom' },
+          ]} />
+        <TweakSection label="Logo" />
+        <TweakSelect label="Variante" value={t.logoVariant} onChange={v => setT('logoVariant', v)}
+          options={[
+            { value: 'horizontal', label: 'Horizontal' },
+            { value: 'isotipo',    label: 'Isotipo' },
+          ]} />
+        <TweakToggle label="Watermark" value={t.showWatermark} onChange={v => setT('showWatermark', v)} />
+        <TweakSection label="Reproducción" />
+        <TweakToggle label="Scrim sobre video" value={t.dimBg} onChange={v => setT('dimBg', v)} />
+        <TweakToggle label="Silenciar audio" value={t.muted} onChange={v => setT('muted', v)} />
+        <TweakToggle label="Mostrar scrubber" value={t.showScrubber} onChange={v => setT('showScrubber', v)} />
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+﻿[0:v]drawtext=fontfile=C\:/Windows/Fonts/arialbd.ttf:text=Hello:fontsize=36:fontcolor=white:x=100:y=100:enable=between(t\,0\,3)[out]
