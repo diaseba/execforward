@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ExecForward — Sistema completo (M1–M6)</title>
+  <link rel="stylesheet" href="../shared/app.css">
+</head>
+<body>
+
+<div id="test-banner">⚠️ Versión de prueba — no compartir</div>
+
+<!-- =====================================================================
+     PANTALLA [1]: LOGIN
+===================================================================== -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="/assets/Logo/EF_logo_B_horizontal.svg" alt="ExecForward"
+           onerror="this.style.display='none'">
+      ExecForward
+    </div>
+    <p class="login-subtitle">Acceso al programa</p>
+    <form class="login-form" id="login-form" autocomplete="off" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="input-uuid">ID de acceso</label>
+        <input class="form-input" type="text" id="input-uuid" name="uuid"
+               placeholder="ef-bundle-xxxxxxxx"
+               autocomplete="username" spellcheck="false" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="input-pass">Contraseña</label>
+        <input class="form-input" type="password" id="input-pass" name="password"
+               placeholder="••••••••"
+               autocomplete="current-password" required>
+      </div>
+      <div class="login-error" id="login-error">
+        Credenciales incorrectas. Revisa el email de confirmación.
+      </div>
+      <button type="submit" class="btn-login">Acceder</button>
+    </form>
+  </div>
+</div>
+
+<!-- =====================================================================
+     PANTALLA [2]: ONBOARDING — texto aprobado §2.3 — no modificar
+===================================================================== -->
+<div id="screen-onboarding" class="screen">
+  <div class="onboarding-card">
+    <div class="onboarding-logo">
+      <img src="/assets/Logo/EF_logo_B_horizontal.svg" alt=""
+           onerror="this.style.display='none'">
+      ExecForward
+    </div>
+    <div class="onboarding-body">
+      <p><em>Llegaste al lugar correcto.</em></p>
+      <p><em>Tengo una hipótesis sobre ti: eres bueno en lo que haces. Quizás muy bueno. Pero nadie te enseñó a buscar trabajo ejecutivo — porque mientras estabas trabajando, no lo necesitabas.</em></p>
+      <p><em>Eso está a punto de cambiar.</em></p>
+      <p><em>Este programa tiene un solo objetivo: que termines con un sistema que trabaje por ti. No una lista de consejos — un sistema. Cuando salgas de aquí vas a tener:</em></p>
+      <ul>
+        <li>Tu propuesta de valor ejecutiva: la frase que abre conversaciones y que la gente recuerda</li>
+        <li>Tu mercado objetivo definido con criterios reales, no aspiraciones</li>
+        <li>Tu CV y LinkedIn trabajando activamente para que te encuentren</li>
+        <li>Tu red activada de forma estratégica — sin pedir favores, sin incomodar</li>
+        <li>Tu pitch, tu narrativa de entrevista y tu posición de negociación preparados</li>
+        <li>Un plan de ejecución que no depende de que estés inspirado ese día</li>
+      </ul>
+      <p><em>Y una ventaja que pocos candidatos tienen: la IA como copiloto en cada paso. No para hacer el trabajo por ti — para que el trabajo que ya hiciste llegue más lejos.</em></p>
+      <p><em>Una pregunta antes de empezar:</em></p>
+      <p><em>¿Hiciste el diagnóstico M0 antes de comprar?</em></p>
+    </div>
+    <hr class="onboarding-divider">
+    <p class="onboarding-question">¿Cuál fue tu resultado?</p>
+    <div class="band-options">
+      <label class="band-option">
+        <input type="radio" name="score-band" value="base">
+        <span class="band-name">Base</span>
+        <span class="band-range">Score 14–26</span>
+      </label>
+      <label class="band-option">
+        <input type="radio" name="score-band" value="operativo">
+        <span class="band-name">Operativo</span>
+        <span class="band-range">Score 27–38</span>
+      </label>
+      <label class="band-option">
+        <input type="radio" name="score-band" value="competitivo">
+        <span class="band-name">Competitivo</span>
+        <span class="band-range">Score 39–49</span>
+      </label>
+      <label class="band-option">
+        <input type="radio" name="score-band" value="diferenciado">
+        <span class="band-name">Diferenciado</span>
+        <span class="band-range">Score 50–56</span>
+      </label>
+      <label class="band-option">
+        <input type="radio" name="score-band" value="none">
+        <span class="band-name">No hice el diagnóstico todavía</span>
+        <span class="band-range"></span>
+      </label>
+    </div>
+    <button class="btn-start-program" id="btn-start-program" disabled>
+      Empezar el programa →
+    </button>
+  </div>
+</div>
+
+<!-- =====================================================================
+     PANTALLA [3]: APP PRINCIPAL
+===================================================================== -->
+<div id="screen-app" class="screen">
+  <header class="app-header">
+    <button class="btn-hamburger" id="btn-hamburger" aria-label="Abrir menú">
+      <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+        <rect width="20" height="2" rx="1" fill="#0d0d0d"/>
+        <rect y="7" width="20" height="2" rx="1" fill="#0d0d0d"/>
+        <rect y="14" width="20" height="2" rx="1" fill="#0d0d0d"/>
+      </svg>
+    </button>
+    <div class="header-logo">
+      <img src="/assets/Logo/EF_logo_B_horizontal.svg" alt=""
+           onerror="this.style.display='none'">
+      ExecForward
+    </div>
+    <div class="header-progress">
+      <span class="header-progress-label" id="global-progress-label">Progreso: 0% completado</span>
+      <div class="header-progress-bar">
+        <div class="header-progress-fill" id="global-progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <button class="btn-ver-bienvenida" onclick="showScreen('onboarding')">Ver bienvenida</button>
+  </header>
+  <div class="app-body">
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <nav class="app-sidebar" aria-label="Módulos del programa">
+      <div class="sidebar-inner" id="sidebar-inner"></div>
+    </nav>
+    <main class="app-content" id="content-area">
+      <div class="content-inner" id="content-inner"></div>
+    </main>
+  </div>
+</div>
+
+<!-- SKU CONFIG — /programa/bundle  (Bundle $89 · M1–M6 accesibles) -->
+<script>
+window.SKU_CONFIG = {
+  sku:               'bundle',
+  skuName:           'Bundle — M1–M6 · $89',
+  uuid:              'ef-bundle-h7w3c8yf',
+  password:          'Nm3pL6jA',
+  accessibleModules: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'],
+  isTestEnv:         false
+};
+</script>
+<script src="../shared/modules-content.js"></script>
+<script src="../shared/app-utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExecForward — El sistema que usan los ejecutivos que consiguen el trabajo que buscan</title>
+    <meta name="description" content="Propuesta de valor · Mercado objetivo · CV y LinkedIn · Networking estratégico · Pitch y negociación · Plan de ejecución. En un solo programa. A tu ritmo. Con IA como copiloto.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #14B8A6;
+            --secondary-dark: #0F766E;
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+            --bg-white: #FFFFFF;
+            --bg-subtle: #F9FAFB;
+            --border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Karla', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            display: block;
+            height: 8px;
+            background: var(--secondary);
+            width: 60px;
+            margin: 0 auto 40px;
+            border-radius: 4px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+
+        .hero .subheadline {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .hero-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        .hero .small-text {
+            display: block;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--bg-subtle);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .problem-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .problem p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .problem em {
+            font-style: italic;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 24px;
+        }
+
+        /* Quiz Section */
+        #quiz {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .quiz-label {
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .quiz-container {
+            background: var(--bg-subtle);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .quiz-container iframe {
+            width: 100%;
+            min-height: 700px;
+            border: none;
+            display: block;
+        }
+
+        /* Solution Section */
+        .solution {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .solution h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .module-card {
+            background: var(--bg-white);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.1);
+        }
+
+        .module-number {
+            font-family: 'Karla', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .module-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .module-tagline {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .module-section-title {
+            font-family: 'Karla', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin: 20px 0 12px 0;
+        }
+
+        .module-card ul {
+            list-style: none;
+            padding: 0;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .module-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .module-card li:last-child {
+            border-bottom: none;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--bg-subtle);
+            padding: 80px 40px;
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .sku-card {
+            background: var(--bg-white);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .sku-card.featured {
+            border-color: var(--secondary);
+            border-width: 2px;
+            transform: scale(1.05);
+        }
+
+        .sku-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary);
+            color: var(--bg-white);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .sku-name {
+            font-family: 'Karla', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .sku-modules {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .sku-price {
+            font-family: 'Karla', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .sku-description {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .sku-cta {
+            display: inline-block;
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--primary);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .sku-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        .pricing-footer {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .pricing-footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .guarantee {
+            background: var(--bg-white);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        /* FAQ Section */
+        .faq {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+        }
+
+        .faq-item h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .faq-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: var(--bg-white);
+            padding: 60px 40px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Karla', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--bg-white);
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 16px 24px;
+            }
+
+            .hero {
+                padding: 60px 24px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero .subheadline {
+                font-size: 16px;
+            }
+
+            .problem {
+                padding: 40px 24px;
+            }
+
+            .problem p {
+                font-size: 16px;
+            }
+
+            #quiz {
+                padding: 40px 24px;
+            }
+
+            .quiz-container {
+                padding: 24px;
+            }
+
+            .solution {
+                padding: 60px 24px;
+            }
+
+            .solution h2 {
+                font-size: 28px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .pricing {
+                padding: 60px 24px;
+            }
+
+            .pricing h2 {
+                font-size: 28px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .sku-card.featured {
+                transform: scale(1);
+            }
+
+            .faq {
+                padding: 60px 24px;
+            }
+
+            .faq h2 {
+                font-size: 28px;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            footer {
+                padding: 40px 24px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="/assets/Logo/EF_logo_B_horizontal.svg" alt="ExecForward">
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>El sistema que usan los ejecutivos que consiguen el trabajo que buscan.</h1>
+        <p class="subheadline">
+            Propuesta de valor · Mercado objetivo · CV y LinkedIn · Networking estratégico · Pitch y negociación · Plan de ejecución. En un solo programa. A tu ritmo. Con IA como copiloto.
+        </p>
+        <button class="hero-cta" onclick="document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' })">Empezar con el diagnóstico gratuito ↓</button>
+        <span class="small-text">Diagnóstico gratuito · Sin registro · Resultado inmediato</span>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="problem-container">
+            <p>Mandar 60 CVs no es una estrategia. El 70% de los cargos ejecutivos nunca se publican. Y el eslabón más débil define el resultado — no el promedio.</p>
+            <em>El diagnóstico tarda 5 minutos y te dice exactamente dónde estás.</em>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz">
+        <p class="quiz-label">Primero, un diagnóstico honesto. 5 minutos. 14 preguntas.</p>
+        <div class="quiz-container">
+            <iframe src="/quiz/index.html" title="Diagnóstico M0 — ExecForward" scrolling="no" id="quiz-iframe"></iframe>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <h2>Seis módulos. Un sistema completo. Tu ritmo.</h2>
+
+        <div class="modules-grid">
+            <!-- M1 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 1</div>
+                <h3>Propuesta de Valor Ejecutiva</h3>
+                <p class="module-tagline">La frase que te consigue trabajo. Todo lo demás es consecuencia.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">La frase que abre conversaciones y que la gente recuerda.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>Marco de diferenciadores</li>
+                    <li>Fórmula de propuesta de valor</li>
+                    <li>Mapa de evidencias</li>
+                    <li>Test de mercado</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+
+            <!-- M2 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 2</div>
+                <h3>Mercado Objetivo y el Mercado Oculto</h3>
+                <p class="module-tagline">El 70% de los cargos ejecutivos nunca se publican. Este módulo te lleva ahí.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">El mapa exacto de dónde eres el candidato más fuerte.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>Definición de mercado objetivo real</li>
+                    <li>Metodología de acceso al mercado oculto</li>
+                    <li>Filtro de oportunidades</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+
+            <!-- M3 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 3</div>
+                <h3>CV Ejecutivo y LinkedIn</h3>
+                <p class="module-tagline">Tus materiales trabajan por ti mientras duermes — o no trabajan. Este módulo decide cuál.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">CV y LinkedIn que trabajan por ti mientras no estás mirando.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>CV ejecutivo construido con IA</li>
+                    <li>LinkedIn optimizado para que te encuentren</li>
+                    <li>Sistema de adaptación rápida por oportunidad</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+
+            <!-- M4 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 4</div>
+                <h3>Red de Contactos y Networking Ejecutivo</h3>
+                <p class="module-tagline">La red no es pedir favores. Es saber a quién, con qué mensaje, en qué orden.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">Una red activada con precisión — sin pedir favores.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>Mapa de contactos de alto impacto</li>
+                    <li>El mensaje que abre puertas</li>
+                    <li>Sistema de seguimiento de red</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+
+            <!-- M5 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 5</div>
+                <h3>Pitch, Entrevista y Negociación</h3>
+                <p class="module-tagline">Puedes llegar a la conversación final y perderla. Este módulo cierra.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">Pitch, entrevista y negociación preparados para cerrar.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>El pitch que genera conversación</li>
+                    <li>La entrevista ejecutiva</li>
+                    <li>Negociación de compensación</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+
+            <!-- M6 -->
+            <div class="module-card">
+                <div class="module-number">Módulo 6</div>
+                <h3>Gestión del Proceso y Plan de Ejecución</h3>
+                <p class="module-tagline">La búsqueda es un proceso que puede durar meses. Este módulo lo hace sostenible.</p>
+                <div class="module-section-title">Qué construyes</div>
+                <p style="font-size: 14px; margin-bottom: 16px;">Un plan de 90 días que no depende de que estés inspirado.</p>
+                <div class="module-section-title">Incluye</div>
+                <ul>
+                    <li>Pre-etapa de diagnóstico</li>
+                    <li>Sistema de seguimiento de procesos</li>
+                    <li>Gestión del estado anímico</li>
+                    <li>Plan de 90 días</li>
+                    <li>Prompts copiables para IA</li>
+                    <li>Audio complementario</li>
+                    <li>Video complementario</li>
+                    <li>Mindmap del módulo</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="pricing-container">
+            <h2>Elige tu punto de entrada.</h2>
+
+            <div class="pricing-grid">
+                <!-- Tripwire -->
+                <div class="sku-card">
+                    <div class="sku-name">Tripwire</div>
+                    <div class="sku-modules">M1 · Propuesta de Valor Ejecutiva</div>
+                    <div class="sku-price">$29</div>
+                    <div class="sku-description">La base de todo. Si no tienes claro por qué te contratan a ti, nada más funciona.</div>
+                    <button class="sku-cta" onclick="window.location.href='[LS_URL_START]'">Empezar con M1 — $29</button>
+                </div>
+
+                <!-- Core -->
+                <div class="sku-card">
+                    <div class="sku-name">Core</div>
+                    <div class="sku-modules">M1 + M2 + M3 · Posicionamiento completo</div>
+                    <div class="sku-price">$59</div>
+                    <div class="sku-description">Propuesta de valor, mercado objetivo, CV y LinkedIn. Los tres módulos que definen cómo te ven antes de que abras la boca.</div>
+                    <button class="sku-cta" onclick="window.location.href='[LS_URL_CORE]'">Plan de posicionamiento — $59</button>
+                </div>
+
+                <!-- Bundle -->
+                <div class="sku-card featured">
+                    <div class="sku-badge">Más completo</div>
+                    <div class="sku-name">Bundle</div>
+                    <div class="sku-modules">M1 a M6 · Sistema completo</div>
+                    <div class="sku-price">$89</div>
+                    <div class="sku-description">End-to-end. Desde la propuesta de valor hasta el plan de ejecución de 90 días. Todos los módulos, todos los prompts, todo el sistema.</div>
+                    <button class="sku-cta" onclick="window.location.href='[LS_URL_BUNDLE]'">Sistema completo — $89</button>
+                </div>
+            </div>
+
+            <div class="pricing-footer">
+                <p>Acceso inmediato · Sin suscripción · Progresa a tu ritmo</p>
+                <div class="guarantee">
+                    Si completás al menos un módulo y sentís que no valió lo que pagaste, te devolvemos el dinero. Sin preguntas. 30 días desde la compra.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>Preguntas frecuentes</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>¿Cuánto tiempo toma completar el programa?</h3>
+                <p>Esto depende de ti. Muchos ejecutivos completan M1 en una o dos semanas. Otros dedican más tiempo a cada módulo. No hay un ritmo obligatorio — es a tu velocidad. El promedio es 4-6 semanas para todo el Bundle.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Puedo acceder en cualquier momento?</h3>
+                <p>Sí. Acceso inmediato post-compra. Puedes empezar cuando quieras, pausar cuando sea necesario, y volver cuando estés listo. No hay fecha de expiración.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Incluye soporte o coaching 1-a-1?</h3>
+                <p>El programa es autodidacta. Los módulos incluyen preguntas reflexivas, ejercicios guiados y prompts para usar con IA, que actúan como tu copiloto personal.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Puedo compartir la cuenta con un colega?</h3>
+                <p>La licencia es personal. La búsqueda ejecutiva es contextual — tu mercado, tu red, tu propuesta de valor. Cada persona merece hacer su propio trabajo en el sistema.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Qué pasa si cambio de opinión?</h3>
+                <p>Garantía de 30 días: si completás al menos un módulo y sentís que no valió la pena, te reembolsamos sin preguntas. Queremos que lo compres porque confías que funcionará.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Funciona para búsquedas en otros mercados?</h3>
+                <p>El programa está diseñado para VP, Director, C-level y mid-management en transición. Los principios funcionan en cualquier mercado, idioma o sector.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Qué incluye "IA como copiloto"?</h3>
+                <p>Cada módulo tiene prompts copiables optimizados para usar con ChatGPT, Claude o cualquier LLM. Son prompts específicos que generan trabajo usable inmediatamente.</p>
+            </div>
+            <div class="faq-item">
+                <h3>¿Hay versiones en otros idiomas?</h3>
+                <p>Lanzamiento ES 2026. Variantes PT y EN en S5. FR después del gatillo de Fase 2. El contenido será traducido por humanos, no por máquina.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">ExecForward</div>
+                </div>
+                <div>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de privacidad</a></li>
+                        <li><a href="#">Términos de uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Las transacciones son procesadas por Lemon Squeezy, Merchant of Record.</p>
+                <p>© 2026 ExecForward. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Auto-resize quiz iframe
+        var quizIframe = document.getElementById('quiz-iframe');
+        if (quizIframe) {
+            window.addEventListener('message', function(e) {
+                if (e.data && e.data.type === 'efQuizHeight' && typeof e.data.height === 'number') {
+                    quizIframe.style.minHeight = (e.data.height + 40) + 'px';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

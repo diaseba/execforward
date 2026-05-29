@@ -1,0 +1,6 @@
+[0:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setpts=PTS-STARTPTS,trim=duration=15.0417,setpts=PTS-STARTPTS[c0];
+[1:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setpts=PTS-STARTPTS,trim=duration=15.0417,setpts=PTS-STARTPTS[c1];
+[2:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setpts=PTS-STARTPTS,trim=duration=15.0417,setpts=PTS-STARTPTS[c2];
+[3:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setpts=PTS-STARTPTS,trim=duration=15.0417,setpts=PTS-STARTPTS[c3];
+[4:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setpts=PTS-STARTPTS,trim=duration=14.8333,setpts=PTS-STARTPTS[c4];
+[c0][c1][c2][c3][c4]concat=n=5:v=1:a=0[v_out]

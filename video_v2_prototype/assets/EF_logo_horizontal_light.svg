@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 80" width="440" height="80" role="img">
+  <title>ExecForward — Logo horizontal light</title>
+  <text x="0" y="58" font-family="'Karla','Helvetica Neue',Arial,sans-serif"
+        font-weight="700" font-size="52" fill="#FFFFFF" letter-spacing="-0.5">ExecForward</text>
+  <g transform="translate(350, 0)">
+    <rect x="0" y="12" width="36" height="9" rx="2" fill="#60A5FA"/>
+    <rect x="0" y="24" width="36" height="9" rx="2" fill="#60A5FA"/>
+    <rect x="0" y="36" width="36" height="9" rx="2" fill="#60A5FA"/>
+    <rect x="0" y="48" width="36" height="9" rx="2" fill="#60A5FA"/>
+    <rect x="0" y="60" width="36" height="9" rx="2" fill="#60A5FA"/>
+    <polygon points="37,12 47,40.5 37,69 43,69 53,40.5 43,12" fill="#2DD4BF"/>
+    <polygon points="49,12 59,40.5 49,69 55,69 65,40.5 55,12" fill="#2DD4BF" opacity="0.70"/>
+    <polygon points="61,12 71,40.5 61,69 67,69 77,40.5 67,12" fill="#2DD4BF" opacity="0.40"/>
+  </g>
+</svg>

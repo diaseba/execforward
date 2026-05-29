@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80" width="520" height="80" role="img">
+  <title>ExecForward — Logo horizontal</title>
+  <desc>Wordmark ExecForward + isotipo a la derecha, fondo blanco</desc>
+  <text x="0" y="58" font-family="'Karla','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="52" fill="#1F2937">ExecForward</text>
+  <!-- Isotipo -->
+  <rect x="398" y="10" width="30" height="7" rx="1.5" fill="#2563EB"/>
+  <rect x="398" y="21" width="30" height="7" rx="1.5" fill="#2563EB"/>
+  <rect x="398" y="32" width="30" height="7" rx="1.5" fill="#2563EB"/>
+  <rect x="398" y="43" width="30" height="7" rx="1.5" fill="#2563EB"/>
+  <rect x="398" y="54" width="30" height="7" rx="1.5" fill="#2563EB"/>
+  <polygon points="429,10 443,40 429,70 436,70 450,40 436,10" fill="#14B8A6"/>
+  <polygon points="443,10 457,40 443,70 450,70 464,40 450,10" fill="#14B8A6" opacity="0.70"/>
+  <polygon points="457,10 471,40 457,70 464,70 478,40 464,10" fill="#14B8A6" opacity="0.40"/>
+</svg>
