@@ -1,0 +1,44 @@
+# Brief de demostración — intro de módulo estilo ExecForward.
+# Render:  ./bin/videoforge render examples/brief.yaml -o out/demo.mp4 --draft
+title: "Demo ExecForward — Intro M1"
+aspect: "16:9"
+fps: 30
+brand: execforward
+voice: false        # pon true si instalas piper/espeak-ng
+subtitles: false    # pon true si instalas faster-whisper
+# music: media/audio/musica.mp3   # opcional: pista de fondo libre
+
+scenes:
+  - type: abstract
+    duration: 3.0
+    bg: ink
+    accent: primary
+    fg: accent
+    narration: "Bienvenido a ExecForward."
+
+  - type: text
+    duration: 3.5
+    text: "Tu búsqueda ejecutiva,\nhecha sistema."
+    subtitle: "Módulo 1 — Fundamentos"
+    bg: ink
+    narration: "Tu búsqueda ejecutiva, hecha sistema. Empecemos por los fundamentos."
+
+  - type: data
+    duration: 4.0
+    text: "Dónde se gana la búsqueda"
+    bg: bg
+    data:
+      - { label: "Red", value: 70 }
+      - { label: "CV", value: 45 }
+      - { label: "Pitch", value: 55 }
+      - { label: "Proceso", value: 60 }
+    narration: "La mayor parte del resultado se decide en la red de contactos."
+
+  - type: text
+    duration: 3.0
+    text: "Empieza ahora →"
+    subtitle: "execforward.com"
+    bg: primary
+    fg: white
+    accent: accent
+    narration: "Empieza ahora."

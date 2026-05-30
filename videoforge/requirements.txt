@@ -1,0 +1,14 @@
+# Núcleo (Fase 1) — gratis, sin GPU
+pillow>=10
+numpy>=1.26
+pyyaml>=6
+requests>=2.31
+
+# Opcionales (audio / subtítulos) — descomenta para activarlos:
+# faster-whisper>=1.0     # subtítulos automáticos
+# piper-tts                # narración TTS de alta calidad (también acepta binario)
+
+# Fase 2 (motores generativos, requieren GPU) — ver README:
+#   ComfyUI + Wan 2.2 / LTX-Video / HunyuanVideo  (text/image-to-video)
+#   LivePortrait / Hallo / SadTalker              (avatares / talking-head)
+#   coqui-tts (XTTS v2)                            (clonación de voz)

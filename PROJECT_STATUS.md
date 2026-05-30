@@ -164,6 +164,7 @@ Inputs:  Height 44px, padding 0 16px, radius 6px, borde 1.5px
 | 2026-05-27 | SVGs logos + Brandbook v1.1 | ✓ Completado | 4 SVGs recalibrados (B, C, D, E), Brandbook actualizado con specs logo |
 | 2026-05-28 | Brand v1.2 sync desde Design sandbox | ✓ Completado | _system/ creado (brand+engine+templates), 12 SVGs canónicos v1.2, Brandbook v1.2, v1.0→_archive |
 | 2026-05-26 | Corrección 7b — 4 bugs navegación | ✓ Completado | app-utils.js: Bug1 siguiente incompleto, Bug2 regreso M6, Bug3 sidebar resume, Bug4 M6 reset |
+| 2026-05-30 | VideoForge (Fase 1) | ✓ Completado | App generadora de video libre (sin Kling/Gemini/Veo). /videoforge: motores text/abstract/data/slideshow/stock, CLI, FFmpeg, sin GPU, $0. Demo render OK. PR #2 |
 
 ---
 
