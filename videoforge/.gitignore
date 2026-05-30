@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+out/
+*.mp4
+*.wav
+*.m4a
+*.srt
+!examples/**
