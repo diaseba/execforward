@@ -1,0 +1,14 @@
+# Configuración de Cloudflare Pages para ExecForward.
+#
+# El sitio publicado vive íntegramente en /src (landing, quiz, programa).
+# Publicar solo /src evita subir los ~342 MB de /media (material de
+# producción de video), que además contiene archivos MP4 mayores al
+# límite de 25 MiB por archivo de Cloudflare Pages — la causa del fallo
+# instantáneo del deploy.
+#
+# Al existir este archivo con `pages_build_output_dir`, pasa a ser la
+# fuente de verdad de la configuración de build (ya no se edita en el
+# dashboard). Ref: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "execforward"
+pages_build_output_dir = "./src"
